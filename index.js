@@ -62,30 +62,44 @@ class Pad {
 
 class Gif {
     y;
+    x;
+    height;
+    width;
+    speed;
 
-    constructor() {
+    constructor(x, y, height, width, speed) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.speed = speed;
     }
 
     drawGif() {
         ctx.beginPath();
-        ctx.rect(Math.random() * 480, 0, 20, 20);
+        ctx.rect(this.x, this.y, this.width, this.height);
         ctx.fillStyle = "red";
         ctx.fill();
         ctx.closePath();
         this.y += 2;
     }
+
+    moveUp() {
+        this.y += 0.1;
+    }
 }
 
-// Hàm vẽ
 var ball = new Ball(canvas.width / 2, canvas.height / 2, 10, "#0095DD", 2);
 var pad = new Pad((canvas.width - 70) / 2, 90, 10, "orange", 5);
-var gif = new Gif()
+var gif = new Gif(240, 0, 10, 10)
 
+// Hàm vẽ
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ball.drawBall();
     pad.drawPad();
-    // gif.drawGif();
+    gif.drawGif();
+    gif.moveUp();
     document.getElementById("score").innerHTML = "SCORE: " + score;
     if (ball.x > canvas.width - ball.radius || ball.x < ball.radius) {
         ball.dx = -ball.dx;
@@ -93,44 +107,68 @@ function draw() {
     if (ball.y < ball.radius) {
         ball.dy = -ball.dy;
     }
+    if (gif.y == pad.height||gif.x==pad.height) {//Không bắt được sự kiện chạm vào quà cộng điểm + làm xuất hiện quà mỗi 10 điểm;
+        score += 10;
+    }
     if (ball.y + ball.dy > canvas.height - ball.radius - pad.height) {
         if (ball.x + ball.dx > pad.x && ball.x + ball.dx < pad.x + pad.width) {
             ball.dy = -ball.dy;
             score++;
             switch (score) {
-                case 10: {
+                case 5: {
                     ball.color = "red";
                     pad.color = "red";
+                    pad.width -= 3;
+                    ball.dx+=1;
+                    ball.dy-=1;
+                    break;
+                }
+                case 10: {
+                    ball.color = "green";
+                    pad.color = "green";
+                    pad.width -= 6;
+                    ball.dx+=1.1;
+                    ball.dy-=1.1;
+                    break;
+                }
+                case 15: {
+                    ball.color = "black";
+                    pad.color = "black";
+                    pad.width -= 9;
+                    ball.dx+=1.2;
+                    ball.dy-=1.2;
                     break;
                 }
                 case 20: {
-                    ball.color = "green";
-                    pad.color = "green";
+                    ball.color = "#D2691E";
+                    pad.color = "#D2691E";
+                    pad.width -= 12;
+                    ball.dx+=1.3;
+                    ball.dy-=1.3;
+                    break;
+                }
+                case 25: {
+                    ball.color = "#2F4F4F";
+                    pad.color = "#2F4F4F";
+                    pad.width -= 15;
+                    ball.dx+=1.4;
+                    ball.dy-=1.4;
                     break;
                 }
                 case 30: {
-                    ball.color = "black";
-                    pad.color = "black";
-                    break;
-                }
-                case 40: {
-                    ball.color = "#D2691E";
-                    pad.color = "#D2691E";
-                    break;
-                }
-                case 50: {
-                    ball.color = "#2F4F4F";
-                    pad.color = "#2F4F4F";
-                    break;
-                }
-                case 60: {
                     ball.color = "FF00FF";
                     pad.color = "FF00FF";
+                    pad.width -= 18;
+                    ball.dx+=1.5;
+                    ball.dy-=1.5;
                     break;
                 }
-                case 70: {
+                case 35: {
                     ball.color = "#8B0000";
                     pad.color = "#8B0000";
+                    pad.width -= 21;
+                    ball.dx+=1.6;
+                    ball.dy-=1.6;
                     break;
                 }
             }
@@ -138,7 +176,7 @@ function draw() {
     }
     if (ball.y > canvas.height - ball.radius) {
         document.location.reload();
-        alert("GAME OVER");
+        alert("THUA RỒI, GÀ VÃI !!!");
     }
     if (pad.rightPressed && pad.x < canvas.width - pad.width) {
         pad.x += pad.speed;
@@ -148,7 +186,6 @@ function draw() {
 }
 
 setInterval(draw, speed2);
-
 
 function moveKeyDown(event) {
     switch (event.keyCode) {
