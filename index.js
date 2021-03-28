@@ -78,7 +78,7 @@ class Gif {
 
 // Hàm vẽ
 var ball = new Ball(canvas.width / 2, canvas.height / 2, 10, "#0095DD", 2);
-var pad = new Pad((canvas.width - 70) / 2, 90, 10, "red", 5);
+var pad = new Pad((canvas.width - 70) / 2, 90, 10, "orange", 5);
 var gif = new Gif()
 
 function draw() {
