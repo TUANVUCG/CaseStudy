@@ -1,3 +1,5 @@
+var sound = document.createElement("audio");
+sound.src = "sound2.mp3"
 var score = 0;
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
@@ -87,8 +89,8 @@ class Pad {
 //     }
 // }
 
-var ball = new Ball(canvas.width / 2, canvas.height / 2, 10, "#0095DD", 2);
-var pad = new Pad((canvas.width - 70) / 2, 90, 10, "0095DD", 5);
+var ball = new Ball(canvas.width / 2, canvas.height / 2, 14, "#0095DD", 2);
+var pad = new Pad((canvas.width - 70) / 2, 90, 15, "0095DD", 5);
 // var gif = new Gif(240, 0, 10, 10)
 
 // Hàm vẽ
@@ -98,7 +100,7 @@ function draw() {
     pad.drawPad();
     // gif.drawGif();
     // gif.moveUp();
-    document.getElementById("score").innerHTML = "SCORE: " + score;
+
     if (ball.x > canvas.width - ball.radius || ball.x < ball.radius) {
         ball.dx = -ball.dx;
     }
@@ -113,13 +115,16 @@ function draw() {
         if (ball.x + ball.dx > pad.x && ball.x + ball.dx < pad.x + pad.width) {
             ball.dy = -ball.dy;
             score++;
+            sound.play();
             switch (score) {
-                case 5: {
+                case 2: {
                     ball.color = "red";
                     pad.color = "red";
                     pad.width -= 3;
                     ball.dx += 1;
                     ball.dy -= 1;
+                    ball.radius -= 1;
+                    pad.dx +=20;
                     break;
                 }
                 case 10: {
@@ -128,6 +133,7 @@ function draw() {
                     pad.width -= 6;
                     ball.dx += 1.1;
                     ball.dy -= 1.1;
+                    ball.radius -= 2;
                     break;
                 }
                 case 15: {
@@ -136,6 +142,7 @@ function draw() {
                     pad.width -= 9;
                     ball.dx += 1.2;
                     ball.dy -= 1.2;
+                    ball.radius -= 2.2;
                     break;
                 }
                 case 20: {
@@ -144,6 +151,7 @@ function draw() {
                     pad.width -= 12;
                     ball.dx += 1.3;
                     ball.dy -= 1.3;
+                    ball.radius -= 2.4;
                     break;
                 }
                 case 25: {
@@ -152,6 +160,7 @@ function draw() {
                     pad.width -= 15;
                     ball.dx += 1.4;
                     ball.dy -= 1.4;
+                    ball.radius -= 2.6;
                     break;
                 }
                 case 30: {
@@ -160,6 +169,7 @@ function draw() {
                     pad.width -= 18;
                     ball.dx += 1.5;
                     ball.dy -= 1.5;
+                    ball.radius -= 2.8;
                     break;
                 }
                 case 35: {
@@ -168,11 +178,13 @@ function draw() {
                     pad.width -= 21;
                     ball.dx += 1.6;
                     ball.dy -= 1.6;
+                    ball.radius -= 3;
                     break;
                 }
             }
         }
     }
+    document.getElementById("score").innerHTML = "SCORE: " + score;
     if (ball.y > canvas.height - ball.radius) {
         document.location.reload();
         alert("THUA RỒI, GÀ VÃI !!!");
@@ -184,7 +196,13 @@ function draw() {
     }
 }
 
-setInterval(draw, speed2);
+function animate() {
+    // sound.play();
+    draw();
+    requestAnimationFrame(animate)
+}
+
+animate();
 
 function moveKeyDown(event) {
     switch (event.keyCode) {
