@@ -61,45 +61,15 @@ class Pad {
     }
 }
 
-// class Gif {
-//     y;
-//     x;
-//     height;
-//     width;
-//     speed;
-//
-//     constructor(x, y, height, width, speed) {
-//         this.x = x;
-//         this.y = y;
-//         this.width = width;
-//         this.height = height;
-//         this.speed = speed;
-//     }
-//
-//     drawGif() {
-//         ctx.beginPath();
-//         ctx.rect(this.x, this.y, this.width, this.height);
-//         ctx.fillStyle = "black";
-//         ctx.fill();
-//         ctx.closePath();
-//     }
-//
-//     moveUp() {
-//         this.y += 1;
-//     }
-// }
-
 var ball = new Ball(canvas.width / 2, canvas.height / 2, 14, "#0095DD", 2);
 var pad = new Pad((canvas.width - 70) / 2, 90, 15, "0095DD", 5);
-// var gif = new Gif(240, 0, 10, 10)
 
 // Hàm vẽ
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ball.drawBall();
     pad.drawPad();
-    // gif.drawGif();
-    // gif.moveUp();
+
 
     if (ball.x > canvas.width - ball.radius || ball.x < ball.radius) {
         ball.dx = -ball.dx;
@@ -107,24 +77,21 @@ function draw() {
     if (ball.y < ball.radius) {
         ball.dy = -ball.dy;
     }
-    // console.log(gif.y);
-    // if (gif.y === 290) {
-    //     score += 10;
-    // }
+
     if (ball.y + ball.dy > canvas.height - ball.radius - pad.height) {
         if (ball.x + ball.dx > pad.x && ball.x + ball.dx < pad.x + pad.width) {
             ball.dy = -ball.dy;
             score++;
-            sound.play();
             switch (score) {
-                case 2: {
+                case 5: {
                     ball.color = "red";
                     pad.color = "red";
                     pad.width -= 3;
                     ball.dx += 1;
                     ball.dy -= 1;
                     ball.radius -= 1;
-                    pad.dx +=20;
+                    pad.dx += 20;
+                    pad.speed +=3;
                     break;
                 }
                 case 10: {
@@ -134,6 +101,7 @@ function draw() {
                     ball.dx += 1.1;
                     ball.dy -= 1.1;
                     ball.radius -= 2;
+                    pad.speed +=3;
                     break;
                 }
                 case 15: {
@@ -143,6 +111,7 @@ function draw() {
                     ball.dx += 1.2;
                     ball.dy -= 1.2;
                     ball.radius -= 2.2;
+                    pad.speed +=3;
                     break;
                 }
                 case 20: {
@@ -152,6 +121,7 @@ function draw() {
                     ball.dx += 1.3;
                     ball.dy -= 1.3;
                     ball.radius -= 2.4;
+                    pad.speed +=2;
                     break;
                 }
                 case 25: {
@@ -161,6 +131,7 @@ function draw() {
                     ball.dx += 1.4;
                     ball.dy -= 1.4;
                     ball.radius -= 2.6;
+                    pad.speed +=2;
                     break;
                 }
                 case 30: {
@@ -170,6 +141,7 @@ function draw() {
                     ball.dx += 1.5;
                     ball.dy -= 1.5;
                     ball.radius -= 2.8;
+                    pad.speed +=2;
                     break;
                 }
                 case 35: {
@@ -179,6 +151,7 @@ function draw() {
                     ball.dx += 1.6;
                     ball.dy -= 1.6;
                     ball.radius -= 3;
+                    pad.speed +=2;
                     break;
                 }
             }
@@ -197,7 +170,7 @@ function draw() {
 }
 
 function animate() {
-    // sound.play();
+    sound.play();
     draw();
     requestAnimationFrame(animate)
 }
