@@ -1,9 +1,8 @@
 var sound = document.createElement("audio");
-sound.src = "sound2.mp3"
+sound.src = "sound.mp3"
 var score = 0;
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-var speed2 = 10;
 
 //Class Ball
 class Ball {
@@ -29,8 +28,6 @@ class Ball {
 
 //Class Pad
 class Pad {
-    rightPressed = false;
-    leftPressed = false;
 
     constructor(x, width, height, color, speed) {
         this.x = x;
@@ -59,9 +56,12 @@ class Pad {
             this.x += this.speed;
         }
     }
+    rightPressed = false;
+    leftPressed = false;
+
 }
 
-var ball = new Ball(canvas.width / 2, canvas.height / 2, 14, "#0095DD", 2);
+var ball = new Ball(canvas.width / 2, canvas.height / 2, 14, "#0095DD", 5);
 var pad = new Pad((canvas.width - 70) / 2, 90, 15, "0095DD", 5);
 
 // Hàm vẽ
@@ -69,7 +69,6 @@ function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ball.drawBall();
     pad.drawPad();
-
 
     if (ball.x > canvas.width - ball.radius || ball.x < ball.radius) {
         ball.dx = -ball.dx;
@@ -90,7 +89,6 @@ function draw() {
                     ball.dx += 1;
                     ball.dy -= 1;
                     ball.radius -= 1;
-                    pad.dx += 20;
                     pad.speed +=3;
                     break;
                 }
@@ -161,7 +159,9 @@ function draw() {
     if (ball.y > canvas.height - ball.radius) {
         document.location.reload();
         alert("THUA RỒI, GÀ VÃI !!!");
+
     }
+    //Chặn không cho ra ngoài
     if (pad.rightPressed && pad.x < canvas.width - pad.width) {
         pad.x += pad.speed;
     } else if (pad.leftPressed && pad.x > 0) {
@@ -174,7 +174,6 @@ function animate() {
     draw();
     requestAnimationFrame(animate)
 }
-
 animate();
 
 function moveKeyDown(event) {
