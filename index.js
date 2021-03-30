@@ -1,5 +1,11 @@
 var sound = document.createElement("audio");
 sound.src = "sound.mp3"
+var sound2 = document.createElement("audio");
+sound2.src = "sound2.mp3"
+var soundEnd = document.createElement("audio");
+soundEnd.src = "gameover.mp3"
+var soundScore = document.createElement("audio");
+soundScore.src = "score.mp3"
 var score = 0;
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
@@ -62,7 +68,7 @@ class Pad {
 }
 
 var ball = new Ball(canvas.width / 2, canvas.height / 2, 14, "#0095DD", 5);
-var pad = new Pad((canvas.width - 70) / 2, 90, 15, "0095DD", 5);
+var pad = new Pad((canvas.width - 70) / 2, 110, 15, "0095DD", 5);
 
 // Hàm vẽ
 function draw() {
@@ -81,6 +87,7 @@ function draw() {
         if (ball.x + ball.dx > pad.x && ball.x + ball.dx < pad.x + pad.width) {
             ball.dy = -ball.dy;
             score++;
+            soundScore.play();
             switch (score) {
                 case 5: {
                     ball.color = "red";
@@ -158,6 +165,7 @@ function draw() {
     document.getElementById("score").innerHTML = "SCORE: " + score;
     if (ball.y > canvas.height - ball.radius) {
         document.location.reload();
+        sound.pause();
         alert("THUA RỒI, GÀ VÃI !!!");
 
     }
@@ -203,6 +211,7 @@ function moveKeyUp(event) {
         }
     }
 }
+
 
 window.addEventListener("keydown", moveKeyDown);
 window.addEventListener("keyup", moveKeyUp);
